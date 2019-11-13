@@ -5,7 +5,7 @@
     "main": "server.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "server/server"
+        "start": "node server/server"
     },
     "author": "Dennis Huallanca",
     "license": "ISC",
@@ -15,6 +15,7 @@
         "express": "^4.17.1",
         "mongoose": "^5.7.3",
         "mongoose-unique-validator": "^2.0.3",
-        "moongoose": "0.0.5"
+        "moongoose": "0.0.5",
+        "underscore": "^1.9.1"
     }
 }

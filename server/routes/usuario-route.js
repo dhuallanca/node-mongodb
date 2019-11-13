@@ -1,5 +1,6 @@
 const express = require('express');
 const Usuario = require('../models/usuario');
+const _underscore = require('underscore');
 const bcrypt = require('bcrypt');
 const app = express();
 
@@ -15,7 +16,27 @@ app.get('/', (req, res) => {
 })
 
 app.get('/usuario', (req, res) => {
-    res.json({ usuario: 'Dennis' });
+    let desde = req.query.desde || 0;
+    let cantidadRegistros = req.query.cantidadRegistros || 5;
+    cantidadRegistros = Number(cantidadRegistros);
+    desde = Number(desde);
+    Usuario.find({})
+        .skip(desde * cantidadRegistros)
+        .limit(cantidadRegistros)
+        .exec((err, listUsuarios) => {
+            if (err) {
+                return res.status(400).json({
+                    succeded: false,
+                    err
+                });
+            }
+
+            return res.status(200).json({
+                succeded: true,
+                listUsuarios
+            });
+        })
+        // res.json({ usuario: 'Dennis' });
 })
 app.post('/usuario', (req, res) => {
     let body = req.body;
@@ -41,8 +62,8 @@ app.post('/usuario', (req, res) => {
 })
 app.put('/usuario/:id', (req, res) => {
     const { id } = req.params;
-    let body = req.body;
-    const optionsToUpdate = { new: true };
+    let body = _underscore.pick(req.body, ['nombre', 'email', 'img', 'role']);
+    const optionsToUpdate = { new: true, runValidators: true };
     Usuario.findByIdAndUpdate(id, body, optionsToUpdate, (err, userResponse) => {
         if (err) {
             return res.status(400).json({
@@ -56,5 +77,22 @@ app.put('/usuario/:id', (req, res) => {
         });
     })
 })
+
+app.delete('/usuario/:id', (req, res) => {
+    const { id } = req.params;
+    Usuario.findByIdAndDelete(id, (err, res) => {
+        if (err) {
+            return res.status(400).json({
+                succeded: false,
+                err
+            });
+        }
+
+        return res.status(200).json({
+            succeded: true,
+            persona: res,
+        });
+    });
+});
 
 module.exports = app;
