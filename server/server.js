@@ -5,7 +5,7 @@ const app = express();
 
 app.use(require('./routes/usuario-route'));
 
-mongoose.connect('mongodb://localhost:27017/cafe', (err, res) => {
+mongoose.connect(process.env.UrlDataBase, { useNewUrlParser: true, useCreateIndex: true }, (err, res) => {
     if (err) throw err;
     console.log('conexión ONLINE de cafe');
 })
