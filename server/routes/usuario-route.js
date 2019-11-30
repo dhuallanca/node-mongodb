@@ -4,18 +4,13 @@ const _underscore = require('underscore');
 const bcrypt = require('bcrypt');
 const app = express();
 
-const bodyParser = require('body-parser');
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
-
-// parse application/json
-app.use(bodyParser.json())
-
-app.get('/', (req, res) => {
+app.get('/test', (req, res) => {
+    console.log('prueba de test', req.body);
     res.json('Hola Dennis');
 })
 
-app.get('/usuario', (req, res) => {
+app.get('', (req, res) => {
+
     let desde = req.query.desde || 0;
     let cantidadRegistros = req.query.cantidadRegistros || 5;
     cantidadRegistros = Number(cantidadRegistros);
@@ -38,7 +33,7 @@ app.get('/usuario', (req, res) => {
         })
         // res.json({ usuario: 'Dennis' });
 })
-app.post('/usuario', (req, res) => {
+app.post('', (req, res) => {
     let body = req.body;
     let user = new Usuario({
         nombre: body.nombre,
@@ -60,7 +55,7 @@ app.post('/usuario', (req, res) => {
         });
     });
 })
-app.put('/usuario/:id', (req, res) => {
+app.put('/:id', (req, res) => {
     const { id } = req.params;
     let body = _underscore.pick(req.body, ['nombre', 'email', 'img', 'role']);
     const optionsToUpdate = { new: true, runValidators: true };
@@ -78,7 +73,7 @@ app.put('/usuario/:id', (req, res) => {
     })
 })
 
-app.delete('/usuario/:id', (req, res) => {
+app.delete('/:id', (req, res) => {
     const { id } = req.params;
     Usuario.findByIdAndDelete(id, (err, res) => {
         if (err) {
