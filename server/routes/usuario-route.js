@@ -2,6 +2,7 @@ const express = require('express');
 const Usuario = require('../models/usuario');
 const _underscore = require('underscore');
 const bcrypt = require('bcrypt');
+const verificaToken = require('../middleware/authentication');
 const app = express();
 
 app.get('/test', (req, res) => {
@@ -9,7 +10,7 @@ app.get('/test', (req, res) => {
     res.json('Hola Dennis');
 })
 
-app.get('', (req, res) => {
+app.get('', verificaToken, (req, res) => {
 
     let desde = req.query.desde || 0;
     let cantidadRegistros = req.query.cantidadRegistros || 5;

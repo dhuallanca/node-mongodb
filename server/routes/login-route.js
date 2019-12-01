@@ -1,6 +1,7 @@
 const express = require('express');
 const crypto = require('bcrypt');
 const Usuario = require('../models/usuario');
+const jwtoken = require('jsonwebtoken');
 
 const app = express();
 
@@ -28,9 +29,13 @@ app.post('', (req, res) => {
                 message: 'Clave incorrectas'
             });
         }
+        // secret code = seed
+        const token = jwtoken.sign({ user: userDb }, process.env.SEED, { expiresIn: process.env.TIME_TOKEN });
         return res.status(200).json({
             succeded: true,
             message: `Bienvenido ${userDb.nombre}`,
+            persona: userDb,
+            token
         });
     });
 
