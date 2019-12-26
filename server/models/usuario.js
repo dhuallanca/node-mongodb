@@ -17,10 +17,6 @@ let usuarioSchema = new schema({
         unique: true,
         required: [true, 'el email es requerido']
     },
-    password: {
-        type: String,
-        required: [true, 'clave invalida']
-    },
     img: {
         type: String,
         required: [false]
@@ -37,6 +33,10 @@ let usuarioSchema = new schema({
     google: {
         type: Boolean,
         default: false,
+    },
+    password: {
+        type: String,
+        required: [this.google === false, 'clave invalida']
     }
 });
 
