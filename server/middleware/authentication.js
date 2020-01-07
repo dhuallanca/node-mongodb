@@ -13,7 +13,8 @@ function verificaToken(req, res, next) {
                 err: { message: 'token invalido' }
             })
         }
-        req.user = decodedToken;
+        // extrae el user del token y lo agrega como parametro al request
+        req.user = decodedToken.user;
         next();
     });
 }

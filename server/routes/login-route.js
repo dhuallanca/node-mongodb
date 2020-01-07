@@ -141,9 +141,7 @@ app.post('/googleSignIn', async(req, res) => {
 });
 
 function createToken(user) {
-    return jwtoken.sign({
-            user
-        },
+    return jwtoken.sign({ user },
         process.env.SEED, {
             expiresIn: process.env.TIME_TOKEN
         });
